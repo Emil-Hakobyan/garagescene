@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { RolesNeededBadges } from '@/components/projects/RolesNeededBadges';
+import { ReportButton } from '@/components/admin/ReportButton';
 import { apiDelete, apiGet, apiPost } from '@/lib/api-client';
 import { getToken, isAuthenticated } from '@/lib/auth';
 import { formatLabel } from '@/lib/constants/profile';
@@ -166,6 +167,13 @@ export function ProjectDetailClient({
                 >
                   Message Owner
                 </button>
+              )}
+
+              {!isOwner && (
+                <ReportButton
+                  targetType="project"
+                  targetId={project._id}
+                />
               )}
             </div>
           </div>

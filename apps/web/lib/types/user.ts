@@ -17,6 +17,8 @@ export interface UserProfile {
   _id: string;
   name: string;
   email?: string;
+  role?: string;
+  isActive?: boolean;
   bio?: string;
   avatar?: string;
   location?: Location;

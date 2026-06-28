@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { StarRating } from '@/components/ui/StarRating';
+import { UserReportActions } from '@/components/users/UserReportActions';
 import { formatLabel } from '@/lib/constants/profile';
 import { UserProfile } from '@/lib/types/user';
 
@@ -102,11 +103,13 @@ export default async function PublicProfilePage({
               <button
                 type="button"
                 disabled
-                className="mt-8 border border-zinc-700 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500"
+                className="border border-zinc-700 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500"
               >
                 Send message
               </button>
               <p className="mt-2 text-xs text-zinc-600">Messaging coming soon</p>
+
+              <UserReportActions userId={user._id} />
             </div>
           </div>
 
