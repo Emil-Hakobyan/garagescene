@@ -28,7 +28,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.PORT || 3001;
+  const port = parseInt(process.env.PORT ?? '8080', 10);
   await app.listen(port, '0.0.0.0');
+
+  console.log(`Application is running on port ${port}`);
 }
 bootstrap();
