@@ -45,6 +45,15 @@ export class UsersService {
     return user.save();
   }
 
+  async findOwnerIdsByCity(city: string): Promise<Types.ObjectId[]> {
+    const owners = await this.userModel
+      .find({ 'location.city': city, isActive: true })
+      .select('_id')
+      .exec();
+
+    return owners.map((owner) => owner._id);
+  }
+
   async updateProfile(
     userId: string,
     updateProfileDto: UpdateProfileDto,

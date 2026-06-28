@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { OptionalJwtAuthGuard } from './guards/optional-jwt-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -34,7 +35,14 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtAuthGuard,
     LocalAuthGuard,
     GoogleAuthGuard,
+    OptionalJwtAuthGuard,
   ],
-  exports: [AuthService, JwtAuthGuard, LocalAuthGuard, GoogleAuthGuard],
+  exports: [
+    AuthService,
+    JwtAuthGuard,
+    LocalAuthGuard,
+    GoogleAuthGuard,
+    OptionalJwtAuthGuard,
+  ],
 })
 export class AuthModule {}
