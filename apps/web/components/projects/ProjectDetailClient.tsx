@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { RolesNeededBadges } from '@/components/projects/RolesNeededBadges';
 import { apiDelete, apiGet, apiPost } from '@/lib/api-client';
@@ -26,6 +27,7 @@ function getOwnerName(owner: Project['owner']): string {
 export function ProjectDetailClient({
   initialProject,
 }: ProjectDetailClientProps) {
+  const router = useRouter();
   const [project, setProject] = useState<Project>(initialProject);
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [grantUserId, setGrantUserId] = useState('');
@@ -82,6 +84,19 @@ export function ProjectDetailClient({
     } catch {
       setAccessError('Failed to grant access.');
     }
+  };
+
+  const handleMessageOwner = () => {
+    if (!isAuthenticated()) {
+      router.push('/login');
+      return;
+    }
+
+    if (currentUser?._id === ownerId) {
+      return;
+    }
+
+    router.push(`/chat?recipient=${ownerId}&project=${project._id}`);
   };
 
   const handleRevokeAccess = async (userId: string) => {
@@ -143,13 +158,15 @@ export function ProjectDetailClient({
                 </Link>
               )}
 
-              <button
-                type="button"
-                disabled
-                className="border border-zinc-700 px-5 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-zinc-500"
-              >
-                Message Owner
-              </button>
+              {!isOwner && (
+                <button
+                  type="button"
+                  onClick={handleMessageOwner}
+                  className="border border-zinc-600 px-5 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-white transition-colors hover:border-zinc-400 hover:bg-zinc-900"
+                >
+                  Message Owner
+                </button>
+              )}
             </div>
           </div>
 

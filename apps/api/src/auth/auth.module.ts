@@ -39,6 +39,7 @@ import { LocalStrategy } from './strategies/local.strategy';
   ],
   exports: [
     AuthService,
+    JwtModule,
     JwtAuthGuard,
     LocalAuthGuard,
     GoogleAuthGuard,
