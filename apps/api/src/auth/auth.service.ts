@@ -42,6 +42,51 @@ export class AuthService {
     return this.buildAuthResponse(user);
   }
 
+  async validateGoogleUser(
+    googleId: string,
+    email: string,
+    name: string,
+  ): Promise<UserDocument> {
+    let user = await this.usersService.findByGoogleId(googleId);
+
+    if (user) {
+      if (!user.isActive) {
+        throw new UnauthorizedException('Account is inactive');
+      }
+
+      return user;
+    }
+
+    user = await this.usersService.findByEmail(email);
+
+    if (user) {
+      if (!user.isActive) {
+        throw new UnauthorizedException('Account is inactive');
+      }
+
+      const linkedUser = await this.usersService.updateGoogleId(
+        user._id.toString(),
+        googleId,
+      );
+
+      if (!linkedUser) {
+        throw new UnauthorizedException('Unable to link Google account');
+      }
+
+      return linkedUser;
+    }
+
+    return this.usersService.create({
+      email,
+      name,
+      googleId,
+    });
+  }
+
+  loginWithUser(user: UserDocument) {
+    return this.buildAuthResponse(user);
+  }
+
   async validateUser(
     email: string,
     password: string,
